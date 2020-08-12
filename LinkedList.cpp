@@ -11,6 +11,7 @@ class LinkedList
 {
     struct Node *first, *last;
     int size;
+
 public:
     LinkedList()
     {
@@ -18,18 +19,18 @@ public:
         last = NULL;
         size = 0;
     }
-    
 
     void append(int x);
     void display();
     void deleteElement(int x);
     void insertAfter(int pos, int element);
+    int search(int target);
 
     ~LinkedList()
     {
         struct Node *temp;
         temp = first;
-        while(temp->link != NULL)
+        while (temp->link != NULL)
         {
             temp = temp->link;
             delete first;
@@ -60,41 +61,40 @@ void LinkedList ::append(int x)
     }
 }
 
-void LinkedList :: display()
+void LinkedList ::display()
 {
-    if(first->link == NULL)
+    if (first->link == NULL)
     {
-        cout << "\nLinked List is empty! "<<endl;
+        cout << "\nLinked List is empty! " << endl;
     }
     else
     {
         struct Node *temp;
         temp = first;
-        while(temp != NULL)
+        while (temp != NULL)
         {
-            cout<<temp->data<<" ";
+            cout << temp->data << " ";
             temp = temp->link;
         }
-        cout<<endl;
+        cout << endl;
     }
-    
 }
 
-void LinkedList :: deleteElement(int x)
+void LinkedList ::deleteElement(int x)
 {
     struct Node *temp, *before;
     temp = first;
     before = first;
-   
+
     int flag = 0;
-    while(temp->link != NULL)
+    while (temp->link != NULL)
     {
-        if(temp->data == x)
+        if (temp->data == x)
         {
             before->link = temp->link;
             delete temp;
         }
-        if(flag == 0)
+        if (flag == 0)
         {
             temp = temp->link;
             flag = 1;
@@ -107,7 +107,7 @@ void LinkedList :: deleteElement(int x)
     }
 }
 
-void LinkedList :: insertAfter(int pos, int element)
+void LinkedList ::insertAfter(int pos, int element)
 {
     struct Node *temp, *newNode;
     int count = 0;
@@ -115,7 +115,7 @@ void LinkedList :: insertAfter(int pos, int element)
     temp = first;
     newNode = new Node;
 
-    for(int i = 0; i < pos; i++)
+    for (int i = 0; i < pos; i++)
     {
         temp = temp->link;
     }
@@ -124,7 +124,23 @@ void LinkedList :: insertAfter(int pos, int element)
     temp->link = newNode;
 }
 
+int LinkedList ::search(int target)
+{
+    struct Node *temp;
+    temp = first;
+    int pos = -1;
 
+    while (temp != NULL)
+    {
+        pos++;
+        if (temp->data == target)
+        {
+            return pos;
+        }
+        temp = temp->link;
+    }
+    return -1;
+}
 int main()
 {
     LinkedList L;
@@ -132,10 +148,10 @@ int main()
     L.append(12);
     L.append(14);
     L.append(16);
-    L.insertAfter(2,15);
+    L.insertAfter(2, 15);
     L.display();
     L.deleteElement(12);
     L.display();
-   
-
+    int pos = L.search(15);
+    cout << "\n Element was found at :" << pos;
 }
